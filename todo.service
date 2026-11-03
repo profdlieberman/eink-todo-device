@@ -1,0 +1,19 @@
+# Starts the to-do list at boot. Replace YOURUSER (3 places) with your username
+# (type `whoami` on the Pi), then:
+#   sudo cp todo.service /etc/systemd/system/
+#   sudo systemctl enable --now todo
+#   journalctl -u todo -f        # watch its messages
+
+[Unit]
+Description=E-ink voice to-do list
+After=local-fs.target sound.target
+
+[Service]
+User=YOURUSER
+ExecStart=/home/YOURUSER/todo-env/bin/python /home/YOURUSER/todo/todo.py
+Restart=on-failure
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
